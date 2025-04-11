@@ -1,0 +1,39 @@
+---
+ - name: Deploy docker-compose
+   hosts: ec2
+   become: true
+   vars:
+    image_name: "{{lookup('env','IMAGE_NAME')}}"
+    db_user: "{{lookup('env', 'DB_USER')}}"
+    db_password: "{{lookup('env','DB_PASSWORD')}}"
+   tasks:
+    - name: Install docker and docker compose
+      apt:
+        name: 
+          - docker.io
+          - docker-compose
+        update_cache: yes
+    
+    - name: Create app dir
+      file:
+        path: /myapp
+        state: diretory
+    
+    - name: Copy docker-compose file from runner to ec2
+      copy:
+        src: "/docker-compose.yml"
+        dest: /myapp/docker-compose.yml
+
+    - name: Create .env file for docker-compose secrets
+      copy:
+        dest: /myapp/.env
+        content: |
+          IMAGE_NAME = {{image_name}}
+          DB_USER = {{db_user}}
+          DB_PASSWORD = {{db_password}}
+      no_log : true
+
+    - name: Run docker-compose
+      shell: docker-compose --env-file .env up -d
+      args:
+        chdir: /myapp
