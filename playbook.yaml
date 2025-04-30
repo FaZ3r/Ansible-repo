@@ -7,12 +7,23 @@
     db_user: "{{lookup('env', 'DB_USER')}}"
     db_password: "{{lookup('env','DB_PASSWORD')}}"
    tasks:
-    - name: Install docker and docker compose
+    - name: Install docker
       ansible.builtin.yum:
         name: 
           - docker
         update_cache: yes
-    
+    - name: Start docker
+      ansible.builtin.service:
+        name: docker
+        state: started
+        
+    - name: Install docker-compose
+      remote_user: ubuntu
+      get_url: 
+      url : https://github.com/docker/compose/releases/latest/download/docker-compose-Linux-x86_64
+      dest: /usr/local/bin/docker-compose
+      mode: 'u+x,g+x'
+
     - name: Create app dir
       file:
         path: /myapp
