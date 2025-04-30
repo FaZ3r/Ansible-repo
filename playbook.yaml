@@ -27,7 +27,11 @@
       file:
         path: /myapp
         state: directory
-    
+    - name: Copy nginx related files from runner to ec2
+      copy: 
+        src: nginx
+        dest: /myapp/nginx
+        
     - name: Copy docker-compose file from runner to ec2
       copy:
         src: docker-compose.yml
