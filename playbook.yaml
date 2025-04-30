@@ -20,9 +20,10 @@
     
     - name: Copy docker-compose file from runner to ec2
       copy:
-        src: "/docker-compose.yml"
+        src: "docker-compose.yml"
+        remote_src: yes
         dest: /myapp/docker-compose.yml
-
+      
     - name: Create .env file for docker-compose secrets
       copy:
         dest: /myapp/.env
@@ -30,7 +31,7 @@
           IMAGE_NAME = {{image_name}}
           DB_USER = {{db_user}}
           DB_PASSWORD = {{db_password}}
-      no_log : true
+      no_log: true
 
     - name: Run docker-compose
       shell: docker-compose --env-file .env up -d
