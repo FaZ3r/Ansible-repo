@@ -8,9 +8,9 @@
     db_password: "{{lookup('env','DB_PASSWORD')}}"
    tasks:
     - name: Install docker and docker compose
-      apt:
+      ansible.builtin.yum:
         name: 
-          - docker.io
+          - docker
           - docker-compose
         update_cache: yes
     
