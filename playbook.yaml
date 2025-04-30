@@ -20,7 +20,7 @@
     
     - name: Copy docker-compose file from runner to ec2
       copy:
-        src: "docker-compose.yml"
+        src: docker-compose.yml
         remote_src: yes
         dest: /myapp/docker-compose.yml
       
