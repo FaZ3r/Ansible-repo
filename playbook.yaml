@@ -16,7 +16,7 @@
     - name: Create app dir
       file:
         path: /myapp
-        state: diretory
+        state: directory
     
     - name: Copy docker-compose file from runner to ec2
       copy:
