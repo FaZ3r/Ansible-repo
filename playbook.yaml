@@ -23,23 +23,23 @@
         dest: /usr/local/bin/docker-compose
         mode: 'u+x,g+x'
 
-    - name: Create app dir
-      file:
-        path: /myapp
-        state: directory
+    #- name: Create app dir
+      #file:
+        #path: /myapp
+        #state: directory
     - name: Copy nginx related files from runner to ec2
       copy: 
         src: nginx
-        dest: /myapp/
+        dest: /
         
     - name: Copy docker-compose file from runner to ec2
       copy:
         src: docker-compose.yml
-        dest: /myapp/docker-compose.yml
+        dest: /docker-compose.yml
       
     - name: Create .env file for docker-compose secrets
       copy:
-        dest: /myapp/.env
+        dest: /.env
         content: |
           IMAGE_NAME = {{image_name}}
           DB_USER = {{db_user}}
@@ -49,4 +49,4 @@
     - name: Run docker-compose
       shell: docker-compose --env-file .env up -d
       args:
-        chdir: /myapp
+        chdir: /
