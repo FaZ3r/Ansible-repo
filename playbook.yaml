@@ -47,6 +47,6 @@
       no_log: true
 
     - name: Run docker-compose
-      shell: docker-compose --env-file .env up -d
+      shell: docker-compose -p myproject --env-file .env up -d
       args:
         chdir: /
